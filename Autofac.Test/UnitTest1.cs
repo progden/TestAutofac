@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
@@ -96,70 +95,5 @@ namespace Autofac.Test
             Assert.Pass();
 
         }
-
-
-        public interface ITestService
-        {
-            public IProductRepository ProductRepo { set; get; }
-
-            public Product GetProduct();
-
-            public void CallMessage();
-
-        }
-
-
-        public class Product
-        {
-            public string Name { set; get; }
-            public int Price { set; get; }
-        }
-
-        public class TestService:ITestService
-        {
-            public TestService()
-            {
-                Console.WriteLine("Write in constructor");
-            }
-
-            public IProductRepository ProductRepo { get; set; }
-
-            public Product GetProduct()
-            {
-                return new Bogus.Faker<Product>()
-                    .RuleFor(t => t.Name, f => f.Commerce.ProductName())
-                    .RuleFor(t => t.Price, f => 500);
-
-            }
-
-            public void CallMessage()
-            {
-                Console.WriteLine("Write in method call");
-            }
-        }
-    }
-
-    public interface IProductRepository
-    {
-        IEnumerable<ProductEntity> GetProducts(Func<bool> pred = null);
-    }
-    public class ProductRepository: IProductRepository
-    {
-        public IEnumerable<ProductEntity> GetProducts(Func<bool> pred = null)
-        {
-            return Enumerable.Range(1, 100).Select(t => new Bogus.DataSets.Commerce(locale: "zh_TW"))
-                .Select(p => new ProductEntity()
-                {
-                    Name = p.ProductName(),
-                    Price = p.Price()
-                });
-
-        }
-    }
-
-    public class ProductEntity
-    {
-        public string Name { set; get; }
-        public string Price { set; get; }
-    }
+   }
 }
